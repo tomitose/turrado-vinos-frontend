@@ -1,0 +1,17 @@
+<div *ngIf="loading" class="text-center p-10">Cargando catálogo...</div>
+
+<main *ngIf="!loading" class="max-w-4xl mx-auto p-8">
+  <h1 class="text-4xl font-bold text-center mb-10">Lista de Vinos (Desarrollo)</h1>
+
+  <div class="space-y-4">
+    
+    <a *ngFor="let vino of vinos" 
+       [routerLink]="['/vinos', vino.documentId]"
+       class="block p-6 bg-white rounded-lg shadow-md hover:bg-red-50 hover:shadow-lg transition-all duration-200">
+      
+      <h2 class="text-xl font-semibold text-gray-800">{{ vino.nombre }} - {{vino.bodega}}</h2>
+
+    </a>
+    
+  </div>
+</main>

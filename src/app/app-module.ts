@@ -1,20 +1,31 @@
-import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { RouterModule } from '@angular/router'; // <-- importante
 import { AppRoutingModule } from './app-routing-module';
-import { App } from './app';
+import { AppComponent } from './app.component';
+import { GraphQLModule } from './graphql.module';
+
+
+import { VinosComponent } from './components/vinos/vinos.component';
+import { NavBar } from './shared/components/nav-bar/nav-bar';
+import { Footer } from './shared/components/footer/footer';
+import { VinoDetail } from './components/vino-detail/vino-detail';
 
 @NgModule({
   declarations: [
-    App
+    AppComponent,
+    VinosComponent,
+    NavBar,
+    Footer,
+    VinoDetail
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    RouterModule,
+    AppRoutingModule,
+    GraphQLModule
   ],
-  providers: [
-    provideBrowserGlobalErrorListeners()
-  ],
-  bootstrap: [App]
+  providers: [],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
