@@ -10,7 +10,7 @@ import { environment } from '../../../environments/environment';
 })
 export class Home implements OnInit {
 
-  vinoRecomendado: any = null;
+  vinosRecomendados: any = [];
   vinosDestacados: any[] = [];
   
   todosLosVinos: any[] = [];
@@ -22,9 +22,8 @@ export class Home implements OnInit {
   constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
-    // Pedimos el vino RECOMENDADO para la tarjeta grande
-    this.dataService.getVinoRecomendado().subscribe(vino => {
-      this.vinoRecomendado = vino;
+    this.dataService.getVinosRecomendados().subscribe(vinos => {
+      this.vinosRecomendados = vinos;
     });
 
     // Pedimos los vinos DESTACADOS para el carrusel

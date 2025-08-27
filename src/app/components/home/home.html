@@ -31,20 +31,22 @@
       </div>
     </section>
 
-    <section *ngIf="vinoRecomendado" class="mx-auto max-w-md mb-10 animate-fade-in">
-      <h2 class="text-xl font-bold text-primary-500 mb-4 text-center">Recomendación del Sommelier</h2>
-      <a [routerLink]="['/vinos', vinoRecomendado.documentId]" class="bg-black/30 backdrop-blur-md rounded-2xl p-4 flex items-center gap-4 border border-primary-700 hover:bg-primary-900/50 transition-colors">
-        <div class="flex-shrink-0">
-          <img *ngIf="vinoRecomendado.imagen && vinoRecomendado.imagen.length > 0" [src]="strapiUrl + vinoRecomendado.imagen[0].url" [alt]="vinoRecomendado.nombre" class="w-16 h-32 object-contain">
-        </div>
-        <div>
-          <h3 class="font-bold text-lg text-white">{{ vinoRecomendado.nombre }}</h3>
-          <p *ngIf="vinoRecomendado.descripcion" class="text-sm text-gray-300 mb-2">
-            {{ vinoRecomendado.descripcion[0].children[0].text.substring(0, 80) }}...
-          </p>
-          <span class="text-primary-500 font-semibold hover:text-primary-400">Ver detalles &rarr;</span>
-        </div>
-      </a>
+    <section *ngIf="vinosRecomendados.length > 0 && terminoBusqueda.length === 0" class="mx-auto max-w-md mb-10 animate-fade-in space-y-4">
+      <h2 class="text-xl font-bold tracking-wide text-primary-600 text-center">Recomendaciones del Sommelier</h2>
+      <div *ngFor="let vino of vinosRecomendados">
+        <a [routerLink]="['/vinos', vino.documentId]" class="bg-black/50 backdrop-blur-md rounded-2xl p-4 flex items-center gap-4 border border-white/10 hover:bg-primary-900/50 transition-colors">
+          <div class="flex-shrink-0">
+            <img *ngIf="vino.imagen && vino.imagen.length > 0" [src]="strapiUrl + vino.imagen[0].url" [alt]="vino.nombre" class="w-16 h-32 object-contain">
+          </div>
+          <div>
+            <h3 class="font-bold text-lg text-white">{{ vino.nombre }}</h3>
+            <p *ngIf="vino.descripcion" class="text-sm text-gray-300 mb-2">
+              {{ vino.descripcion[0].children[0].text.substring(0, 80) }}...
+            </p>
+            <span class="text-primary-500 font-semibold">Ver detalles &rarr;</span>
+          </div>
+        </a>
+      </div>
     </section>
   </ng-container>
 

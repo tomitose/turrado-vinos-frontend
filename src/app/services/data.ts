@@ -36,7 +36,7 @@ const GET_VINO_BY_DOC_ID = gql`
 // Consulta para el vino RECOMENDADO
 const GET_VINO_RECOMENDADO = gql`
   query GetVinoRecomendado {
-    vinos(filters: { recomendado: { eq: true } }, pagination: { limit: 1 }) {
+    vinos(filters: { recomendado: { eq: true } }) {
       documentId
       nombre
       descripcion
@@ -79,11 +79,11 @@ export class DataService {
     );
   }
 
-  getVinoRecomendado(): Observable<any> {
+  getVinosRecomendados(): Observable<any[]> {
     return this.apollo.watchQuery<any>({
       query: GET_VINO_RECOMENDADO
     }).valueChanges.pipe(
-      map(result => result.data.vinos[0])
+      map(result => result.data.vinos)
     );
   }
 
