@@ -12,21 +12,27 @@ module.exports = {
       colors: {
         // Paleta de verdes (reemplaza a 'gold')
         primary: {
-          100: '#eaf0e9', // Verde muy claro para fondos sutiles
-          500: '#5a7d55', // Verde medio para textos y acentos
-          700: '#31432d', // Tu color base
-          900: '#263423', // Verde muy oscuro
+          '50': '#f4f6f3',
+          '100': '#eaf0e9',
+          '200': '#d3dcd2',
+          '300': '#b9c7b8',
+          '400': '#8da689',
+          '500': '#5a7d55',
+          '600': '#456240',
+          '700': '#31432d', // Tu color base, oscuro y elegante
+          '800': '#2b3a27',
+          '900': '#263423',
+          '950': '#1c261a', 
         },
-        // Mantenemos la paleta de vinos
         wine: {
           900: '#5c001f',
           700: '#8c0032',
         },
         gold: {
           100: '#c98912',
-          300: '#fde68a', // Un dorado suave para textos
+          300: '#fde68a',
           400: '#c98912',
-          500: '#f59e0b', // Un dorado más intenso para acentos
+          500: '#f59e0b',
         },
       },
       keyframes: {

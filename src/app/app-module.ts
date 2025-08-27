@@ -10,6 +10,7 @@ import { VinosComponent } from './components/vinos/vinos.component';
 import { NavBar } from './shared/components/nav-bar/nav-bar';
 import { Footer } from './shared/components/footer/footer';
 import { VinoDetail } from './components/vino-detail/vino-detail';
+import { Home } from './components/home/home';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { VinoDetail } from './components/vino-detail/vino-detail';
     VinosComponent,
     NavBar,
     Footer,
-    VinoDetail
+    VinoDetail,
+    Home
   ],
   imports: [
     BrowserModule,

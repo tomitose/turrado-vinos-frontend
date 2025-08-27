@@ -13,7 +13,6 @@ const GET_VINOS = gql`
   }
 `;
 
-// Consulta para el detalle (la que te funcionó en el Playground)
 const GET_VINO_BY_DOC_ID = gql`
   query GetVinoByDocId($documentId: ID!) {
     vino(documentId: $documentId) {
@@ -23,6 +22,19 @@ const GET_VINO_BY_DOC_ID = gql`
       bodega
       cepa
       anada
+      imagen {
+        url
+      }
+    }
+  }
+`;
+
+const GET_VINO_DESTACADO = gql`
+  query GetVinoDestacado {
+    vinos(filters: { destacado: { eq: true } }, pagination: { limit: 1 }) {
+      documentId
+      nombre
+      descripcion
       imagen {
         url
       }
@@ -58,6 +70,14 @@ export class DataService {
       variables: { documentId: docId }
     }).valueChanges.pipe(
       map(result => result.data.vino)
+    );
+  }
+
+  getVinoDestacado(): Observable<any> {
+    return this.apollo.watchQuery<any>({
+      query: GET_VINO_DESTACADO
+    }).valueChanges.pipe(
+      map(result => result.data.vinos[0])
     );
   }
 }
