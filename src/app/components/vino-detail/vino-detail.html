@@ -1,8 +1,17 @@
+<div class="fixed-bg"></div>
+
 <div *ngIf="loading" class="text-primary-100 text-center p-10">Cargando vino...</div>
 
-<div *ngIf="!loading && vino" class="vino-detail-page min-h-screen bg-gradient-to-b from-primary-900 to-black text-white">
+<div *ngIf="!loading && vino" class="relative min-h-screen text-white">
 
-  <!-- Imagen + Añada -->
+  <div class="absolute top-6 left-6 z-20">
+    <a routerLink="/" class="w-12 h-12 bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center border border-white/10 hover:bg-primary-700 transition-colors duration-300">
+      <svg class="w-6 h-6 text-primary-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+    </a>
+  </div>
+
   <div class="pt-16 pb-8 text-center animate-fade-in">
     <div class="relative inline-block animate-float">
       <div class="w-64 h-[420px] md:w-72 md:h-[480px] mx-auto rounded-2xl overflow-hidden ">
@@ -17,18 +26,14 @@
     </div>
   </div>
 
-  <!-- Caja con detalles -->
   <div class="relative z-10 container mx-auto px-4 pb-12 max-w-md">
-
     <div class="bg-black/50 backdrop-blur-md rounded-3xl p-6 animate-slide-up shadow-2xl border border-white/10">
 
-      <!-- Título -->
       <div class="text-center mb-6">
         <h1 class="text-3xl font-serif font-bold text-gold-300 mb-1">{{ vino.nombre }}</h1>
         <p class="text-primary-100 text-sm tracking-wide uppercase">{{ vino.bodega }}</p>
       </div>
 
-      <!-- Descripción -->
       <div *ngIf="vino.descripcion" class="bg-primary-900/40 rounded-2xl p-4 mb-4">
         <h3 class="text-primary-500 text-lg font-serif font-semibold mb-2">Notas de Cata</h3>
         <div class="prose prose-invert text-gray-200 text-sm leading-relaxed">
@@ -38,7 +43,6 @@
         </div>
       </div>
 
-      <!-- Grid con detalles -->
       <div class="grid grid-cols-2 gap-4">
         <div class="bg-primary-900/40 rounded-2xl p-4 text-center">
           <h3 class="text-primary-500 text-sm font-medium uppercase">Cepa</h3>

@@ -2,17 +2,21 @@ import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { Observable, map } from 'rxjs';
 
-// Consulta para la lista (incluye documentId para los links)
+// Consulta para la búsqueda y lista general
 const GET_VINOS = gql`
   query GetVinos {
     vinos {
       documentId
       nombre
-      bodega
+      cepa
+      imagen {
+        url
+      }
     }
   }
 `;
 
+// Consulta para el detalle
 const GET_VINO_BY_DOC_ID = gql`
   query GetVinoByDocId($documentId: ID!) {
     vino(documentId: $documentId) {
@@ -29,12 +33,26 @@ const GET_VINO_BY_DOC_ID = gql`
   }
 `;
 
-const GET_VINO_DESTACADO = gql`
-  query GetVinoDestacado {
-    vinos(filters: { destacado: { eq: true } }, pagination: { limit: 1 }) {
+// Consulta para el vino RECOMENDADO
+const GET_VINO_RECOMENDADO = gql`
+  query GetVinoRecomendado {
+    vinos(filters: { recomendado: { eq: true } }, pagination: { limit: 1 }) {
       documentId
       nombre
       descripcion
+      imagen {
+        url
+      }
+    }
+  }
+`;
+
+// Consulta para la lista de DESTACADOS
+const GET_VINOS_DESTACADOS = gql`
+  query GetVinosDestacados {
+    vinos(filters: { destacado: { eq: true } }, pagination: { limit: 5 }) {
+      documentId
+      nombre
       imagen {
         url
       }
@@ -49,35 +67,31 @@ export class DataService {
 
   constructor(private apollo: Apollo) { }
 
-  /**
-   * Obtiene la lista de todos los vinos para la vista de catálogo.
-   */
   getVinos(): Observable<any[]> {
-    return this.apollo.watchQuery<any>({
-      query: GET_VINOS
-    }).valueChanges.pipe(
+    return this.apollo.watchQuery<any>({ query: GET_VINOS }).valueChanges.pipe(
       map(result => result.data.vinos)
     );
   }
 
-  /**
-   * Obtiene un solo vino por su documentId para la vista de detalle.
-   * @param docId El documentId del vino a buscar.
-   */
   getVinoByDocId(docId: string): Observable<any> {
-    return this.apollo.watchQuery<any>({
-      query: GET_VINO_BY_DOC_ID,
-      variables: { documentId: docId }
-    }).valueChanges.pipe(
+    return this.apollo.watchQuery<any>({ query: GET_VINO_BY_DOC_ID, variables: { documentId: docId } }).valueChanges.pipe(
       map(result => result.data.vino)
     );
   }
 
-  getVinoDestacado(): Observable<any> {
+  getVinoRecomendado(): Observable<any> {
     return this.apollo.watchQuery<any>({
-      query: GET_VINO_DESTACADO
+      query: GET_VINO_RECOMENDADO
     }).valueChanges.pipe(
       map(result => result.data.vinos[0])
+    );
+  }
+
+  getVinosDestacados(): Observable<any[]> {
+    return this.apollo.watchQuery<any>({
+      query: GET_VINOS_DESTACADOS
+    }).valueChanges.pipe(
+      map(result => result.data.vinos)
     );
   }
 }

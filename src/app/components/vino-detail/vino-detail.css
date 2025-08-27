@@ -9,12 +9,17 @@
     isolation: isolate; 
   }
 
-  .vino-detail-page::before {
-    content: ''; 
-    background-image: url('/assets/images/bg-image.jpg');
-    background-size: cover;
-    background-position: center center;
-    position: fixed; 
-    inset: 0;
-    z-index: -1; 
-  }
+ /* src/app/components/vino-detail/vino-detail.component.css */
+
+ .fixed-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+
+  background-image: url('/assets/images/bg-image.jpg');
+  background-size: cover;
+  background-position: center center;
+}

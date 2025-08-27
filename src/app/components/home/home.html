@@ -1,5 +1,4 @@
 <div class="min-h-screen bg-gray-900 text-white p-6 flex flex-col">
-  
   <header class="text-center pt-10 pb-8">
     <h1 class="text-4xl font-serif font-bold text-gold-300 mb-2">Bienvenidos a Turrado Vinos</h1>
     <p class="text-gray-400">Descubre tu próximo vino favorito</p>
@@ -10,51 +9,66 @@
       type="text" 
       placeholder="Buscar por nombre o cepa..."
       class="w-full bg-gray-800 border-2 border-gray-700 rounded-full py-3 pl-5 pr-12 text-white focus:outline-none focus:border-primary-500 transition-colors"
+      [(ngModel)]="terminoBusqueda"
+      (input)="buscarVinos()"
     >
     <div class="absolute inset-y-0 right-0 flex items-center pr-4">
       <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
     </div>
   </div>
 
-<section class="mb-14">
+  <ng-container *ngIf="terminoBusqueda.length === 0">
+    <section class="mb-14">
       <h2 class="text-primary-100 text-md tracking-wide mb-4 text-center">Destacados</h2>
-      <div class="flex space-x-6 overflow-x-auto p-2 snap-x snap-mandatory justify-normal md:justify-center">
+      <div class="flex space-x-6 overflow-x-auto p-2 snap-x snap-mandatory justify-start md:justify-center">
         <div *ngFor="let vino of vinosDestacados" class="snap-center flex-shrink-0 w-40">
           <a [routerLink]="['/vinos', vino.documentId]">
-            <div class="bg-gradient-to-r from-primary-800 to-primary-600 rounded-lg p-3 transform hover:scale-105 transition-transform hover:text-gold-300">
-              <img *ngIf="vino.imagen" [src]="strapiUrl + vino.imagen.url" [alt]="vino.nombre" class="h-48 object-contain mx-auto">
-              <p class="text-center text-sm truncate text-white-300">{{ vino.nombre }}</p>
+            <div class="bg-gradient-to-r from-primary-800 to-primary-600 rounded-lg p-3 transform hover:scale-105 transition-transform">
+              <p class="text-center text-sm truncate text-white">{{ vino.nombre }}</p>
             </div>
           </a>
         </div>
       </div>
     </section>
 
-  <section *ngIf="vinoDestacado" class="mx-auto max-w-md mb-10 animate-fade-in">
-    <h2 class="text-xl font-bold text-primary-500 mb-4 text-center">Recomendación del Sommelier</h2>
-    
-    <a [routerLink]="['/vinos', vinoDestacado.documentId]" class=" bg-black/50 backdrop-blur-md rounded-2xl p-4 flex items-center gap-4 border border-white/10 hover:bg-primary-900/50 transition-colors">
-      <div class="flex-shrink-0">
-        <img *ngIf="vinoDestacado.imagen && vinoDestacado.imagen.length > 0" 
-              [src]="strapiUrl + vinoDestacado.imagen[0].url" 
-              [alt]="vinoDestacado.nombre" 
-              class="w-16 h-32 object-contain">
-      </div>
-      <div>
-        <h3 class="font-bold text-lg text-white">{{ vinoDestacado.nombre }}</h3>
-        <p *ngIf="vinoDestacado.descripcion" class="text-sm text-gray-300 mb-2">
-          {{ vinoDestacado.descripcion[0].children[0].text.substring(0, 80) }}...
-        </p>
-        <span class="text-primary-500 font-semibold">Ver detalles &rarr;</span>
-      </div>
-    </a>
+    <section *ngIf="vinoRecomendado" class="mx-auto max-w-md mb-10 animate-fade-in">
+      <h2 class="text-xl font-bold text-primary-500 mb-4 text-center">Recomendación del Sommelier</h2>
+      <a [routerLink]="['/vinos', vinoRecomendado.documentId]" class="bg-black/30 backdrop-blur-md rounded-2xl p-4 flex items-center gap-4 border border-primary-700 hover:bg-primary-900/50 transition-colors">
+        <div class="flex-shrink-0">
+          <img *ngIf="vinoRecomendado.imagen && vinoRecomendado.imagen.length > 0" [src]="strapiUrl + vinoRecomendado.imagen[0].url" [alt]="vinoRecomendado.nombre" class="w-16 h-32 object-contain">
+        </div>
+        <div>
+          <h3 class="font-bold text-lg text-white">{{ vinoRecomendado.nombre }}</h3>
+          <p *ngIf="vinoRecomendado.descripcion" class="text-sm text-gray-300 mb-2">
+            {{ vinoRecomendado.descripcion[0].children[0].text.substring(0, 80) }}...
+          </p>
+          <span class="text-primary-500 font-semibold hover:text-primary-400">Ver detalles &rarr;</span>
+        </div>
+      </a>
+    </section>
+  </ng-container>
+
+  <section *ngIf="terminoBusqueda.length > 0" class="mb-14 flex-grow">
+    <div *ngIf="resultadosBusqueda.length > 0" class="max-w-md mx-auto space-y-3">
+      <a *ngFor="let vino of resultadosBusqueda" [routerLink]="['/vinos', vino.documentId]" class="flex items-center rounded-2xl gap-4 p-3 bg-black/20 backdrop-blur-md hover:bg-primary-900/50 transition-colors border border-primary-700">
+        <div class="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center">
+            <img *ngIf="vino.imagen && vino.imagen.length > 0" [src]="strapiUrl + vino.imagen[0].url" [alt]="vino.nombre" class="h-14 object-contain">
+        </div>
+        <div>
+          <h3 class="font-semibold text-white">{{ vino.nombre }}</h3>
+          <p class="text-sm text-gold-300">{{ vino.cepa }}</p>
+        </div>
+      </a>
+    </div>
+    <div *ngIf="resultadosBusqueda.length === 0" class="text-center text-gray-400 pt-10">
+      <p>No se encontraron vinos para "{{ terminoBusqueda }}"</p>
+    </div>
   </section>
 
   <div class="mt-auto flex justify-center pb-4">
-      <button class="bg-gradient-to-r from-primary-700 to-primary-500 text-white font-bold py-4 px-6 rounded-full shadow-lg flex items-center space-x-3 transform hover:scale-110 transition-transform ">
-          <svg class="w-8 h-8 " fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V6a2 2 0 012-2h2M4 16v2a2 2 0 002 2h2M16 4h2a2 2 0 012 2v2M16 20h2a2 2 0 002-2v-2"></path></svg>
-          <span class="hover:text-gold-300">Escanear Vino</span>
-      </button>
+    <a routerLink="/scanner" class="bg-gradient-to-r from-primary-700 to-primary-500 text-white font-bold py-4 px-6 rounded-full shadow-lg flex items-center space-x-3 transform hover:scale-110 transition-transform">
+        <svg class="w-8 h-8 " fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V6a2 2 0 012-2h2M4 16v2a2 2 0 002 2h2M16 4h2a2 2 0 012 2v2M16 20h2a2 2 0 002-2v-2"></path></svg>
+        <span>Escanear Vino</span>
+    </a>
   </div>
-
 </div>
