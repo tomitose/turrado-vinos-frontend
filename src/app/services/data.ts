@@ -33,7 +33,6 @@ const GET_VINO_BY_DOC_ID = gql`
   }
 `;
 
-// Consulta para el vino RECOMENDADO
 const GET_VINO_RECOMENDADO = gql`
   query GetVinoRecomendado {
     vinos(filters: { recomendado: { eq: true } }) {
@@ -47,12 +46,24 @@ const GET_VINO_RECOMENDADO = gql`
   }
 `;
 
-// Consulta para la lista de DESTACADOS
 const GET_VINOS_DESTACADOS = gql`
   query GetVinosDestacados {
     vinos(filters: { destacado: { eq: true } }, pagination: { limit: 5 }) {
       documentId
       nombre
+      imagen {
+        url
+      }
+    }
+  }
+`;
+
+const GET_VINO_EN_PROMOCION = gql`
+  query GetVinoEnPromocion {
+    vinos(filters: { en_promocion: { eq: true } }, pagination: { limit: 1 }) {
+      documentId
+      nombre
+      texto_promocion
       imagen {
         url
       }
@@ -92,6 +103,14 @@ export class DataService {
       query: GET_VINOS_DESTACADOS
     }).valueChanges.pipe(
       map(result => result.data.vinos)
+    );
+  }
+
+  getVinoEnPromocion(): Observable<any> {
+    return this.apollo.watchQuery<any>({
+      query: GET_VINO_EN_PROMOCION
+    }).valueChanges.pipe(
+      map(result => result.data.vinos[0])
     );
   }
 }

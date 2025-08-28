@@ -1,6 +1,6 @@
 <div class="min-h-screen bg-gray-900 text-white p-6 flex flex-col">
   <header class="text-center pt-10 pb-8">
-    <h1 class="text-4xl font-serif font-bold text-gold-300 mb-2">Bienvenidos a Turrado Vinos</h1>
+    <h1 class="text-4xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-gold-300 to-gold-800 mb-2">Bienvenidos a Turrado Vinos</h1>
     <p class="text-gray-400">Descubre tu próximo vino favorito</p>
   </header>
 
@@ -48,6 +48,30 @@
         </a>
       </div>
     </section>
+
+    <section *ngIf="vinoEnPromocion && terminoBusqueda.length === 0" class="mb-10 animate-fade-in">
+      <a [routerLink]="['/vinos', vinoEnPromocion.documentId]" class="block mx-auto max-w-md bg-gradient-to-br from-wine-950 to-wine-900 rounded-2xl p-5 border border-wine-700 hover:shadow-2xl hover:shadow-wine-900/50 transition-shadow duration-300 relative overflow-hidden">
+        
+        <div class="absolute top-2 -right-11 text-center text-white font-bold text-sm bg-primary-500 w-40 py-1 transform rotate-45">
+          {{ vinoEnPromocion.texto_promocion }}
+        </div>
+    
+        <div class="flex items-center gap-4">
+          <!-- <div class="flex-shrink-0">
+            <img *ngIf="vinoEnPromocion.imagen" 
+                  [src]="strapiUrl + vinoEnPromocion.imagen[0].url" 
+                  [alt]="vinoEnPromocion.nombre" 
+                  class="w-16 h-32 object-contain drop-shadow-lg">
+          </div> -->
+          <div class="flex-grow">
+            <p class="font-semibold text-primary-100">PROMOCIÓN DEL MES</p>
+            <h3 class="font-bold text-xl text-white mt-1">{{ vinoEnPromocion.nombre }}</h3>
+            <!-- <span class="text-primary-500 font-semibold mt-2 inline-block">Ver Oferta &rarr;</span> -->
+          </div>
+        </div>
+      </a>
+    </section>
+
   </ng-container>
 
   <section *ngIf="terminoBusqueda.length > 0" class="mb-14 flex-grow">

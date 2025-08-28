@@ -12,6 +12,7 @@ export class Home implements OnInit {
 
   vinosRecomendados: any = [];
   vinosDestacados: any[] = [];
+  vinoEnPromocion: any = null;
   
   todosLosVinos: any[] = [];
   resultadosBusqueda: any[] = [];
@@ -22,16 +23,19 @@ export class Home implements OnInit {
   constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
+
+    this.dataService.getVinoEnPromocion().subscribe(vino => {
+      this.vinoEnPromocion = vino;
+    });
+
     this.dataService.getVinosRecomendados().subscribe(vinos => {
       this.vinosRecomendados = vinos;
     });
 
-    // Pedimos los vinos DESTACADOS para el carrusel
     this.dataService.getVinosDestacados().subscribe(vinos => {
       this.vinosDestacados = vinos;
     });
 
-    // Pedimos TODOS los vinos para la lógica del buscador
     this.dataService.getVinos().subscribe(todosLosVinos => {
       this.todosLosVinos = todosLosVinos;
     });
