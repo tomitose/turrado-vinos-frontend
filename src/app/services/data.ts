@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { Observable, map } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+
 
 // Consulta para la búsqueda y lista general
 const GET_VINOS = gql`
@@ -22,6 +25,7 @@ const GET_VINO_BY_DOC_ID = gql`
     vino(documentId: $documentId) {
       nombre
       descripcion
+      notas_cata
       precio
       bodega
       cepa
@@ -38,6 +42,7 @@ const GET_VINO_RECOMENDADO = gql`
     vinos(filters: { recomendado: { eq: true } }) {
       documentId
       nombre
+      notas_cata
       descripcion
       imagen {
         url
@@ -76,7 +81,7 @@ const GET_VINO_EN_PROMOCION = gql`
 })
 export class DataService {
 
-  constructor(private apollo: Apollo) { }
+  constructor(private apollo: Apollo, private http: HttpClient) { }
 
   getVinos(): Observable<any[]> {
     return this.apollo.watchQuery<any>({ query: GET_VINOS }).valueChanges.pipe(
@@ -112,5 +117,10 @@ export class DataService {
     }).valueChanges.pipe(
       map(result => result.data.vinos[0])
     );
+  }
+
+  identificarVinoPorImagen(imageBase64: string): Observable<any> {
+    const apiUrl = `${environment.strapiUrl}/api/identifier/identify-image`;
+    return this.http.post(apiUrl, { imageBase64 });
   }
 }
